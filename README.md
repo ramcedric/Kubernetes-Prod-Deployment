@@ -39,7 +39,8 @@ kubectl get secret app-secret -n production -o jsonpath="{.data.DB_PASSWORD}" | 
 ### Step 5: Deploy the application
 
 ```bash
-sed 's/PLACEHOLDER_NAMESPACE/development/' app-deployment-template.yaml > prod-deployment.yaml
+sed -e 's/PLACEHOLDER_NAMESPACE/production/' \
+    -e 's/replicas: .*$/replicas: 3/' app-deployment-template.yaml > prod-deployment.yaml
 
 kubectl apply -f prod-deployment.yaml
 ```
