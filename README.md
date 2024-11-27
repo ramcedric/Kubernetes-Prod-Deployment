@@ -16,13 +16,33 @@ Before applying any deployment, make sure the relevant namespace exists. For **p
 ```bash
 kubectl create namespace production
 ```
+### Step 2: Configure Environment-Specific ConfigMaps
 
-### Step 2: Deploy the application
+```bash
+kubectl create configmap app-config \
+  --from-literal=APP_ENV=production \
+  --namespace=production
+```
+
+### Step 3: Define Secrets 
+```bash
+kubectl create secret generic app-secret \
+  --from-literal=DB_PASSWORD=prodpassword123 \
+  --namespace=production
+```
+
+### Step 4: To Decode the password
+```bash
+kubectl get secret app-secret -n production -o jsonpath="{.data.DB_PASSWORD}" | base64 --decode
+```
+
+### Step 5: Deploy the application
 
 ```bash
 kubectl apply -f prod-deployment.yaml
 ```
-### Step 3: Expose the application
+
+### Step 6: Expose the application
 
 ```bash
 kubectl expose deployment nginx-app \
@@ -33,7 +53,7 @@ kubectl expose deployment nginx-app \
   --namespace=production
 ```
 
-### Step 4: Verify the Deployment
+### Step 7: Verify the Deployment
 
 ```bash
 kubectl get pods -n production
