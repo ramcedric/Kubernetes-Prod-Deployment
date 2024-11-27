@@ -39,6 +39,12 @@ kubectl expose deployment nginx-app \
 kubectl get pods -n production
 kubectl get svc -n production
 ```
+```bash
+kubectl exec -it <pod-name> -n production -- /bin/bash
+echo $APP_ENV
+echo $DB_PASSWORD
+```
+
 
 ### Summary
 
